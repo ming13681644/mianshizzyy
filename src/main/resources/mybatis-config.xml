@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--<configuration>-->
+<!--    <settings>-->
+<!--        <setting name="mapUnderscoreToCamelCase" value="true"/>-->
+<!--    </settings>-->
+<!--    <typeAliases>-->
+<!--        &lt;!&ndash;包名需要自己改&ndash;&gt;-->
+<!--        <package name="com.gao"/>-->
+<!--    </typeAliases>-->
+
+<!--</configuration>-->
+<configuration>
+	<!-- 打印sql到控制台 -->
+	  <settings>
+		<setting name="logImpl" value="STDOUT_LOGGING" />
+	  </settings>
+    <!-- 指定实体类的别名，方便在mapper配置中进行引用 -->
+    <typeAliases>
+        <!-- 方法1、定义一个alias别名，缺点在于需要一个实体类分别指定
+        <typeAlias type="edu.nf.ch01.entity.Users" alias="user" />-->
+        <!-- 方法2、也可以使用package来给某个包下面的所有实体类自动创建别名，
+        自动创建的别名规则是类的类名并将首字母改为小写 -->
+        <package name="com.gao.db.bean"/>
+    </typeAliases>
+    <!-- 配置数据源环境，default指定默认的数据源 -->
+    <environments default="mysql">
+        <!-- 创建一个MySQL的数据源环境，id就叫mysql -->
+        <environment id="mysql">
+            <!-- 配置事务管理，这里有JDBC和MANAGED两个值
+             JDBC：使用本地jdbc的事务
+             MANAGED：mybatis不参与事务管理，由运行容器来管理事务-->
+            <transactionManager type="JDBC"/>
+            <!-- 配置数据源，type指定获取连接的方式，有以下几个值：
+             POOLED：使用mybatis自带的数据库连接池（方便连接的复用）
+             UNPOOLRF：不使用连接池，而是每次请求都从数据库去获取连接
+              JMDI：通过查找JNDI树去获取数据源对象，通常结合web容器或者EJB容器来配置 -->
+            <dataSource type="POOLED">
+                <!-- 配置数据源信息，驱动，url，连接的账号密码等 -->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/ssm?useUnicode=true&amp;characterEncoding=utf8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 指定mapper配置文件 -->
+    <mappers>
+        <mapper resource="mapper/EmployeeMapper.xml" />
+        <package name="com.gao.bean.Person."/>
+    </mappers>
+
+
+</configuration>
